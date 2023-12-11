@@ -1,3 +1,4 @@
+import random
 def generate_game_set(suits,card):
     deck = set()
     for suit in suits:
@@ -9,5 +10,9 @@ faces = ["shah" , "bi bi" , "tak" , "sarbaz"]
 nums = [2 , 3 , 4 , 5 , 6 , 7 , 8 , 9 , 10]
 card = faces + nums
 gameset = generate_game_set (suits,card)
-print(gameset)
+for i in range(len(gameset)):
+    card = random.choice(list(gameset))
+    gameset.remove(card)
+    print(gameset)
+
 
