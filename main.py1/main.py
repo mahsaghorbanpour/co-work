@@ -13,6 +13,6 @@ gameset = generate_game_set (suits,card)
 for i in range(len(gameset)):
     card = random.choice(list(gameset))
     gameset.remove(card)
-    print(gameset)
+    print(card)
 
 
