@@ -1,8 +1,8 @@
 import random
-def generate_game_set(suits,card):
+def generate_game_set(suits,cards):
     deck = set()
     for suit in suits:
-        for card in faces + nums:
+        for card in cards:
             deck.add((card , "of" , suit ))
     return deck
 suits = ["del" , "khesht" , "geshniz" , "pick"]
