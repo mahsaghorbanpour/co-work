@@ -10,9 +10,15 @@ faces = ["shah" , "bi bi" , "tak" , "sarbaz"]
 nums = [2 , 3 , 4 , 5 , 6 , 7 , 8 , 9 , 10]
 card = faces + nums
 gameset = generate_game_set (suits,card)
-for i in range(len(gameset)):
+amin = []
+mahsa = []
+for i in range(5):
     card = random.choice(list(gameset))
+    amin.append(card)
     gameset.remove(card)
-    print(card)
+for _ in range(5):
+    card = random.choice(list(gameset))
+    mahsa.append(card)
+    gameset.remove(card)
 
 
