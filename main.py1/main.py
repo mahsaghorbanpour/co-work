@@ -57,5 +57,7 @@ while len(gameset) != 0:
                 win_mahsa.append(card)
             else:
                 earth.append(card)
-
+        print(amin)
+        print(mahsa)
+        print(earth)
 
