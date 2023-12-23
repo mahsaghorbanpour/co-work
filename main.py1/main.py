@@ -43,5 +43,11 @@ while len(gameset) != 0:
         card = input("please select the card index :")
         earth.append(card)
         mahsa.remove(card)
+    for j in earth:
+        if total_11 == True:
+            win_amin.append(j, card)
+            win_mahsa.append(j, card)
+        else:
+            earth.append(card)
 
 
