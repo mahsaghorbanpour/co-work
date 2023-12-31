@@ -1,0 +1,46 @@
+
+
+def mahsa(user_color, user_age):
+    message = "{} is very beauty".format(user_color)
+    print(message)
+    new_age = user_age + 1
+    return new_age
+
+
+def amin(job, experience):
+    new_ex = experience + 1
+    message = "amin is a {}".format(job)
+    print(message)
+    return new_ex
+
+message ="This is our scope sample"
+
+print("welcome {}".format(message))
+
+amin_job = "programmer"
+amin_exp = 2
+
+mahsa_color = "dark red"
+mahsa_age = 20
+
+amin_result = amin(job=amin_job, experience= amin_exp)
+mahsa_result=mahsa(user_color=mahsa_color, user_age= mahsa_age)
+
+
+print(message)
+print(amin_result)
+print(mahsa_result)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
