@@ -1,24 +1,27 @@
 import random
 
 
+# What is purpose of this function ?
+# What is list_of_point?
 def calculate_point(list_of_point):
-    point = 0
-    for p in list_of_point:
-        if p[2] == "geshniz":
-            point+=1
-    return point
+    player_point = 0
+    for point in list_of_point:
+        if point[2] == "clubs":
+            player_point += 1
+    return player_point
 
 
-def total_11(num1, num2):
-    if (type(num1) is int) and (type(num2) is int):
-        result = num1 + num2
+# what is purpose of this function?
+def check_win(card1, card2):
+    if (type(card1) is int) and (type(card2) is int):
+        result = card1 + card2
 
         if result == 11:
             return True
         else:
             return False
-    elif (type(num1) is str) and (type(num2) is str):
-        if num2 == num1:
+    elif (type(card1) is str) and (type(card2) is str):
+        if card2 == card1:
             return True
         else:
             return False
@@ -26,7 +29,10 @@ def total_11(num1, num2):
         return False
 
 
-def generate_game_set(suits,cards):
+# why we generate set for our cards? why we don't use list instead of that?
+# suits :
+# cards :
+def generate_game_set(suits, cards):
     deck = set()
     for suit in suits:
         for card in cards:
@@ -34,112 +40,137 @@ def generate_game_set(suits,cards):
     return deck
 
 
+suits_of_cards = ["hearts", "diamonds", "clubs", "spades"]
+faces_cards = ["King", "Queen", "Jack"]
+numbers_cards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
-suits = ["del", "khesht", "geshniz", "pick"]
-faces = ["shah", "bi bi", "sarbaz"]
-nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-card = faces + nums
+list_of_cards = faces_cards + numbers_cards
 
-gameset = generate_game_set(suits, card)
+# which variable of generate_game_set fill in game_cards_set ?
+# can we use deck here? why?
+game_cards_set = generate_game_set(suits_of_cards, list_of_cards)
 
-earth = []
-amin = []
-mahsa = []
-win_amin = []
-win_mahsa = []
-for i in range(4):
-    card = random.choice(list(gameset))
-    earth.append(card)
-    gameset.remove(card)
-while len(gameset) != 0:
-    for i in range(4):
-        card = random.choice(list(gameset))
-        amin.append(card)
-        gameset.remove(card)
+cards_of_earth = []
+cards_of_amin = []
+cards_of_mahsa = []
+points_of_amin = []
+points_of_mahsa = []
+
+# what is purpose of this for ?
+for _ in range(4):
+    # why we convert game_cards_set to list?
+    earth_random_card = random.choice(list(game_cards_set))
+    cards_of_earth.append(earth_random_card)
+    game_cards_set.remove(earth_random_card)
+
+while len(game_cards_set) != 0:
+    # what is purpose of this for ?
     for _ in range(4):
-        card = random.choice(list(gameset))
-        mahsa.append(card)
-        gameset.remove(card)
-    for k in range(4):
-        print("==================================")
+        amin_random_card = random.choice(list(game_cards_set))
+        cards_of_amin.append(amin_random_card)
+        game_cards_set.remove(amin_random_card)
+    # what is purpose of this for ?
+    for _ in range(4):
+        mahsa_random_card = random.choice(list(game_cards_set))
+        cards_of_mahsa.append(mahsa_random_card)
+        game_cards_set.remove(mahsa_random_card)
+    # what is purpose of this for ?
+    for _ in range(4):
+        print("====================================================")
 
-        print("cards of earth = ", earth)
-        print("cards of amin =", amin)
-        user_input =int(input("please select the card index :"))
-        card = amin[user_input]
-        amin.remove(card)
-        sarbaz_winner= []
-        if card[0] == "sarbaz":
-            number_existance = False
-            for m in range(len(earth)):
-                earth_card = earth[m]
-                if (type(earth_card[0]) is int) or (earth_card[0] == "sarbaz"):
-                    win_amin.append(earth_card)
-                    sarbaz_winner.append(earth_card)
-                    number_existance = True
+        print("cards of earth = ", cards_of_earth)
+        print("cards of amin =", cards_of_amin)
+        amin_selected_index = int(input("please select the card index :"))
+        amin_selected_card = cards_of_amin[amin_selected_index]
+        cards_of_amin.remove(amin_selected_card)
+        jack_winner_list = []
+        # what is purpose of this if?
+        if amin_selected_card[0] == "Jack":
+            # what is purpose of this flag?
+            is_jack_win_card = False
+            for index in range(len(cards_of_earth)):
+                earth_card = cards_of_earth[index]
+                # why we select 0th index of earth card ?
+                if (type(earth_card[0]) is int) or (earth_card[0] == "Jack"):
+                    points_of_amin.append(earth_card)
+                    jack_winner_list.append(earth_card)
+                    is_jack_win_card = True
                 else:
                     continue
-            if number_existance == True:
-                win_amin.append(card)
-                for s in sarbaz_winner:
-                    earth.remove(s)
-                sarbaz_winner = []
+            # why i didn't write   if is_jack_win_card == True:
+            if is_jack_win_card:
+                points_of_amin.append(amin_selected_card)
+                # what is win_card ?
+                for win_card in jack_winner_list:
+                    cards_of_earth.remove(win_card)
+                jack_winner_list = []
             else:
-                earth.append(card)
+                cards_of_earth.append(amin_selected_card)
         else:
-            is_win = False
-            for j in earth:
-                if total_11(j[0], card[0]) == True:
-                    win_amin.append(j)
-                    earth.remove(j)
-                    win_amin.append(card)
-                    is_win = True
+            # what is purpose of this flag?
+            is_card_win = False
+            for card in cards_of_earth:
+                # why i didn't write total_11(card[0], amin_selected_card[0])== True
+                # what is total_11 return?
+                if check_win(card[0], amin_selected_card[0]):
+                    points_of_amin.append(card)
+                    cards_of_earth.remove(card)
+                    points_of_amin.append(amin_selected_card)
+                    is_card_win = True
                     break
-            if is_win == False:
-                earth.append(card)
+            # we could write  is_card_win == False  :  not is_card_win
+            if not is_card_win:
+                cards_of_earth.append(amin_selected_card)
 
-        print("==================================")
-        print("cards of earth = ", earth)
-        print("cards of mahsa = ", mahsa)
-        user_input = int(input("please select the card index :"))
-        card = mahsa[user_input]
-        mahsa.remove(card)
-        msarbaz = False
-        if card[0] == "sarbaz":
-            msarbaz_winner = []
-            for l in range(len(earth)):
-                m_earth_card = earth[l]
-                if type(m_earth_card[0]) is int or m_earth_card[0] == "sarbaz":
-                    win_mahsa.append(m_earth_card)
-                    msarbaz_winner.append(m_earth_card)
-                    msarbaz = True
-            if msarbaz == True:
-                win_mahsa.append(card)
-                for s in msarbaz_winner:
-                    earth.remove(s)
-                msarbaz_winner = []
+        print("====================================================")
+        print("cards of earth = ", cards_of_earth)
+        print("cards of mahsa = ", cards_of_mahsa)
+        mahsa_selected_index = int(input("please select the card index :"))
+        mahsa_selected_card = cards_of_mahsa[mahsa_selected_index]
+        cards_of_mahsa.remove(mahsa_selected_card)
+        # is it ok we used is_jack_win_card in both amin and mahsa turns?
+        is_jack_win_card = False
+        if mahsa_selected_card[0] == "Jack":
+            jack_winner_list = []
+            for card_index in range(len(cards_of_earth)):
+                # is it ok we used earth_card in both amin and mahsa turns?
+                earth_card = cards_of_earth[card_index]
+                if type(earth_card[0]) is int or earth_card[0] == "sarbaz":
+                    points_of_mahsa.append(earth_card)
+                    jack_winner_list.append(earth_card)
+                    is_jack_win_card = True
+            if is_jack_win_card:
+                points_of_mahsa.append(mahsa_selected_card)
+                for win_card in jack_winner_list:
+                    cards_of_earth.remove(win_card)
+                jack_winner_list = []
 
             else:
-                earth.append(card)
+                cards_of_earth.append(mahsa_selected_card)
         else:
-            mahsa_flag = False
-            for a in earth:
-                if total_11(a[0], card[0]) == True:
-                    win_mahsa.append(a)
-                    win_mahsa.append(card)
-                    earth.remove(a)
-                    mahsa_flag = True
+            is_card_win = False
+            for earth_card in cards_of_earth:
+                if check_win(earth_card[0], mahsa_selected_card[0]):
+                    points_of_mahsa.append(earth_card)
+                    points_of_mahsa.append(mahsa_selected_card)
+                    cards_of_earth.remove(earth_card)
+                    is_card_win = True
                     break
-            if mahsa_flag == False:
-                earth.append(card)
+            if is_card_win == False:
+                cards_of_earth.append(mahsa_selected_card)
         print("one set finished")
-        print("wins of amin", win_amin)
-        print("wins of mahsa", win_mahsa)
+        print("wins of amin", points_of_amin)
+        print("wins of mahsa", points_of_mahsa)
 
-point_of_amin = calculate_point(win_amin)
-point_of_mahsa = calculate_point(win_mahsa)
+point_of_amin = calculate_point(points_of_amin)
+point_of_mahsa = calculate_point(points_of_mahsa)
 
 if point_of_amin > point_of_mahsa:
     print("Amin is win game with grade :", point_of_amin)
 else:
     print("Mahsa is win game with grade :", point_of_mahsa)
+
+
+# what is scope of variable player_point?
+# what is scope of variable card2?
+# can we use card2 in check_win function?
