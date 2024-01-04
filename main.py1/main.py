@@ -215,6 +215,8 @@ if point_of_amin > point_of_mahsa:
 else:
     print("{} is win game with grade :".format(player2), point_of_mahsa)
 
+
+
 # what is scope of variable player_point?
 # what is scope of variable card2?
 # can we use card2 in check_win function?
