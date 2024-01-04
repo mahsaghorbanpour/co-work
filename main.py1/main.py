@@ -29,6 +29,19 @@ def check_win(card1, card2):
         return False
 
 
+def validate_user_input(user_index, earth_card_length):
+    try:
+        int_index = int(user_index)
+        if (int_index < earth_card_length) and (int_index >= 0):
+            return True
+        else:
+            return False
+    except:
+        return False
+
+player1 = input("Hello player1, please give me your name :")
+player2 = input("Hello player2, please give me your name :")
+
 # why we generate set for our cards? why we don't use list instead of that?
 # suits :
 # cards :
@@ -56,6 +69,8 @@ cards_of_mahsa = []
 points_of_amin = []
 points_of_mahsa = []
 
+is_amin_last_winner = True
+
 # what is purpose of this for ?
 for _ in range(4):
     # why we convert game_cards_set to list?
@@ -77,11 +92,14 @@ while len(game_cards_set) != 0:
     # what is purpose of this for ?
     for _ in range(4):
         print("====================================================")
-
         print("cards of earth = ", cards_of_earth)
-        print("cards of amin =", cards_of_amin)
-        amin_selected_index = int(input("please select the card index :"))
-        amin_selected_card = cards_of_amin[amin_selected_index]
+        print("cards of {} : ".format(player1) , cards_of_amin)
+        amin_selected_index = input("please select the card index :")
+        while not validate_user_input(amin_selected_index, len(cards_of_amin)):
+            print("Not valid input, try again !!!!")
+            amin_selected_index = input("please select the card index :")
+
+        amin_selected_card = cards_of_amin[int(amin_selected_index)]
         cards_of_amin.remove(amin_selected_card)
         jack_winner_list = []
         # what is purpose of this if?
@@ -94,12 +112,16 @@ while len(game_cards_set) != 0:
                 if (type(earth_card[0]) is int) or (earth_card[0] == "Jack"):
                     points_of_amin.append(earth_card)
                     jack_winner_list.append(earth_card)
+                    is_amin_last_winner = True
+
                     is_jack_win_card = True
                 else:
                     continue
             # why i didn't write   if is_jack_win_card == True:
             if is_jack_win_card:
                 points_of_amin.append(amin_selected_card)
+                is_amin_last_winner = True
+
                 # what is win_card ?
                 for win_card in jack_winner_list:
                     cards_of_earth.remove(win_card)
@@ -114,6 +136,9 @@ while len(game_cards_set) != 0:
                 # what is total_11 return?
                 if check_win(card[0], amin_selected_card[0]):
                     points_of_amin.append(card)
+                    is_amin_last_winner = True
+                    is_amin_last_winner = True
+
                     cards_of_earth.remove(card)
                     points_of_amin.append(amin_selected_card)
                     is_card_win = True
@@ -124,9 +149,14 @@ while len(game_cards_set) != 0:
 
         print("====================================================")
         print("cards of earth = ", cards_of_earth)
-        print("cards of mahsa = ", cards_of_mahsa)
-        mahsa_selected_index = int(input("please select the card index :"))
-        mahsa_selected_card = cards_of_mahsa[mahsa_selected_index]
+        print("cards of {} ".format(player2), cards_of_mahsa)
+
+        mahsa_selected_index = input("please select the card index :")
+        while not validate_user_input(mahsa_selected_index, len(cards_of_mahsa)):
+            print("invalid input! please try again.")
+            mahsa_selected_index = input("please select the card index :")
+
+        mahsa_selected_card = cards_of_mahsa[int(mahsa_selected_index)]
         cards_of_mahsa.remove(mahsa_selected_card)
         # is it ok we used is_jack_win_card in both amin and mahsa turns?
         is_jack_win_card = False
@@ -138,9 +168,13 @@ while len(game_cards_set) != 0:
                 if type(earth_card[0]) is int or earth_card[0] == "sarbaz":
                     points_of_mahsa.append(earth_card)
                     jack_winner_list.append(earth_card)
+                    is_amin_last_winner = False
+
                     is_jack_win_card = True
             if is_jack_win_card:
                 points_of_mahsa.append(mahsa_selected_card)
+                is_amin_last_winner = False
+
                 for win_card in jack_winner_list:
                     cards_of_earth.remove(win_card)
                 jack_winner_list = []
@@ -152,6 +186,8 @@ while len(game_cards_set) != 0:
             for earth_card in cards_of_earth:
                 if check_win(earth_card[0], mahsa_selected_card[0]):
                     points_of_mahsa.append(earth_card)
+                    is_amin_last_winner = False
+
                     points_of_mahsa.append(mahsa_selected_card)
                     cards_of_earth.remove(earth_card)
                     is_card_win = True
@@ -159,17 +195,25 @@ while len(game_cards_set) != 0:
             if is_card_win == False:
                 cards_of_earth.append(mahsa_selected_card)
         print("one set finished")
-        print("wins of amin", points_of_amin)
-        print("wins of mahsa", points_of_mahsa)
+        print("wins of {} ".format(player1), points_of_amin)
+        print("wins of {} ".format(player2), points_of_mahsa)
+
+
+if is_amin_last_winner:
+    for reminder_card in cards_of_earth:
+        points_of_amin.append(reminder_card)
+else:
+    for reminder_card in cards_of_earth:
+        points_of_mahsa.append(reminder_card)
 
 point_of_amin = calculate_point(points_of_amin)
 point_of_mahsa = calculate_point(points_of_mahsa)
 
-if point_of_amin > point_of_mahsa:
-    print("Amin is win game with grade :", point_of_amin)
-else:
-    print("Mahsa is win game with grade :", point_of_mahsa)
 
+if point_of_amin > point_of_mahsa:
+    print("{} is win game with grade :".format(player1), point_of_amin)
+else:
+    print("{} is win game with grade :".format(player2), point_of_mahsa)
 
 # what is scope of variable player_point?
 # what is scope of variable card2?
