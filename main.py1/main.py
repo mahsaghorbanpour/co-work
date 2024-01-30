@@ -220,3 +220,84 @@ else:
 # what is scope of variable player_point?
 # what is scope of variable card2?
 # can we use card2 in check_win function?
+
+
+
+
+# print(ord("A"))
+# print(ord("a"))
+# print("----------")
+# print(ord("B"))
+# print(ord("b"))
+# print("----------")
+#
+# print(ord("C"))
+# print(ord("c"))
+import  math
+def my_upper(my_string):
+    upper_string = ""
+    for i in my_string:
+        if (ord(i) >= 65) and (ord(i) <= 90):
+            upper_string = upper_string + i
+        else:
+            upper_string = upper_string + chr(ord(i) - 32)
+
+    return upper_string
+
+
+def my_lower(my_string):
+    lower_string = ""
+    for j in my_string:
+        if ord(j) >= 97 and ord(j) <= 122:
+            lower_string = lower_string + j
+        else:
+            lower_string = lower_string + chr(ord(j) + 32)
+    return lower_string
+
+
+def my_capitalize(my_string):
+    capitalize_string = ""
+    if (ord(my_string[0]) >= 65) and (ord(my_string[0]) <= 90 ):
+        capitalize_string += my_string[0]
+    else:
+        capitalize_string += chr(ord(my_string[0]) - 32)
+    for k in range(1, len(my_string)):
+        if ord(my_string[k]) >= 97 and ord(my_string[k]) <= 122:
+            capitalize_string = capitalize_string + my_string[k]
+        else:
+            capitalize_string = capitalize_string + chr(ord(my_string[k]) + 32)
+    return capitalize_string
+
+
+# print(my_upper("Mahsa"))
+# print(my_lower("Mahsa"))
+# print(my_capitalize("mAhSA"))
+
+def maghlob(number):
+    pass
+def toDecimal(number, mabna):
+    new_number = 0
+    p = len(number) - 1 # power
+    for i in number:
+        new_number += int(i) * pow(mabna, p)
+        p -=1
+    return new_number
+
+def fromDecimal(number, new_mabna):
+    reminders = []
+    while number >= new_mabna:
+        r = number % new_mabna
+        number = number // new_mabna
+        reminders.append(str(r))
+    reminders.append(str(number))
+    reverse_list = reminders[::-1]
+    return "".join(reverse_list)
+
+
+a = input()
+b = int(input())
+c = int(input())
+decimal_number = toDecimal(a, b)
+c_base = fromDecimal(decimal_number, c)
+print(c_base)
+
